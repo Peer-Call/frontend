@@ -4,6 +4,11 @@
 ```
 git clone https://github.com/Peer-Call/frontend.git
 ```
+or
+```
+gh repo clone Peer-Call/frontend
+```
+
 * Change the directory to project directory.
 ```
 cd frontend
