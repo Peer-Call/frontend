@@ -25,7 +25,7 @@ function Login() {
                     {" "}
                     Email address{" "}
                   </label>
-                  <div className="mt-1">
+                  <div className="mt-1 ">
                     <input
                       id="email"
                       name="email"
@@ -33,7 +33,7 @@ function Login() {
                       autoComplete="email"
                       required=""
                       placeholder="Your Email"
-                      className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      className="block w-full transform rounded-lg hover:shadow-md border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     />
                   </div>
                 </div>
@@ -45,7 +45,7 @@ function Login() {
                     {" "}
                     Password{" "}
                   </label>
-                  <div className="mt-1">
+                  <div className="mt-1 ">
                     <input
                       id="password"
                       name="password"
@@ -53,7 +53,7 @@ function Login() {
                       autoComplete="current-password"
                       required=""
                       placeholder="Your Password"
-                      className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     />
                   </div>
                 </div>
