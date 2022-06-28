@@ -1,7 +1,6 @@
-import Button from './component/Button.jsx'
-
-function Login() {
-
+import Button from "./component/Button.jsx";
+import CircleButton from "./component/CircleButton";
+function Signup() {
   return (
     <section>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
@@ -11,7 +10,7 @@ function Login() {
               Peercall
             </a>
             <h2 className="mt-6 text-3xl font-extrabold text-neutral-600">
-              Sign in.
+              Sign Up.
             </h2>
           </div>
           <div className="mt-8">
@@ -33,7 +32,7 @@ function Login() {
                       autoComplete="email"
                       required=""
                       placeholder="Your Email"
-                      className="block w-full transform rounded-lg hover:shadow-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      className="block w-full transform rounded-lg hover:shadow-md border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     />
                   </div>
                 </div>
@@ -53,7 +52,27 @@ function Login() {
                       autoComplete="current-password"
                       required=""
                       placeholder="Your Password"
-                      className="block w-full transform  hover:shadow-lg rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-neutral-600"
+                  >
+                    {" "}
+                    Confirm Password{" "}
+                  </label>
+                  <div className="mt-1 ">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required=""
+                      placeholder="Your Password"
+                      className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     />
                   </div>
                 </div>
@@ -78,20 +97,17 @@ function Login() {
                     <a
                       href="#"
                       className="font-medium text-blue-600 hover:text-blue-500"
-                    >
-                      {" "}
-                      Forgot your password?{" "}
-                    </a>
+                    ></a>
                   </div>
                 </div>
-                <Button text="Sign In" />
+                <CircleButton text="Sign Up" />
               </form>
             </div>
           </div>
         </div>
       </div>
-    </section >
-  )
+    </section>
+  );
 }
 
-export default Login;
+export default Signup;
