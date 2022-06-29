@@ -39,6 +39,7 @@ function Login() {
                       autoComplete="email"
                       required=""
                       placeholder="Your Email"
+<<<<<<< HEAD
                       className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                       value={username}
                       onChange={(event) => {
@@ -47,6 +48,11 @@ function Login() {
                           return event.target.value;
                         });
                       }}
+||||||| 43c7c1c
+                      className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+=======
+                      className="block w-full transform rounded-lg hover:shadow-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+>>>>>>> 0d70f20db8b29abd92c34e7bb1dd8c945c13ed5e
                     />
                   </div>
                 </div>
@@ -66,6 +72,7 @@ function Login() {
                       autoComplete="current-password"
                       required=""
                       placeholder="Your Password"
+<<<<<<< HEAD
                       className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                       value={password}
                       onChange={(event) => {
@@ -74,6 +81,11 @@ function Login() {
                           return event.target.value;
                         });
                       }}
+||||||| 43c7c1c
+                      className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+=======
+                      className="block w-full transform  hover:shadow-lg rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+>>>>>>> 0d70f20db8b29abd92c34e7bb1dd8c945c13ed5e
                     />
                   </div>
                 </div>

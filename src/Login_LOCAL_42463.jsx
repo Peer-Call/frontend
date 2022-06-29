@@ -31,7 +31,7 @@ function Login() {
                     {" "}
                     Email address{" "}
                   </label>
-                  <div className="mt-1 ">
+                  <div className="mt-1">
                     <input
                       id="email"
                       name="email"
@@ -58,7 +58,7 @@ function Login() {
                     {" "}
                     Password{" "}
                   </label>
-                  <div className="mt-1 ">
+                  <div className="mt-1">
                     <input
                       id="password"
                       name="password"
