@@ -100,7 +100,7 @@ function Signup() {
                     ></a>
                   </div>
                 </div>
-                <CircleButton text="Sign Up" />
+                <Button text="Sign Up" />
               </form>
             </div>
           </div>
