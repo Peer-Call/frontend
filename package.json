@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@peculiar/webcrypto": "^1.4.0",
+    "gun": "^0.2020.1237",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "react-router-dom": "6"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
