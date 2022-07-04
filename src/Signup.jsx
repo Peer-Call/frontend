@@ -1,5 +1,5 @@
 import Button from "./component/Button.jsx";
-import CircleButton from "./component/CircleButton";
+
 function Signup() {
   return (
     <section>
@@ -58,7 +58,7 @@ function Signup() {
                 </div>
                 <div className="space-y-1">
                   <label
-                    htmlFor="password"
+                    htmlFor="confirm-password"
                     className="block text-sm font-medium text-neutral-600"
                   >
                     {" "}
@@ -66,7 +66,7 @@ function Signup() {
                   </label>
                   <div className="mt-1 ">
                     <input
-                      id="password"
+                      id="confirm-password"
                       name="password"
                       type="password"
                       autoComplete="current-password"
