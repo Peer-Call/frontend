@@ -1,6 +1,36 @@
 import Button from "./component/Button.jsx";
+import { useEffect, useState } from "react";
 
 function Signup() {
+  const [status, setStatus] = useState("Not logged in");
+  const [username, setUsername] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  const db = GUN()
+  const user = db.user().recall({ sessionStorage: true });
+
+  useEffect(() => {
+    setUsername("ahis@gmail.com");
+    setPassword1("ahis@gmail.com");
+    setPassword2("ahis@gmail.com");
+  }, []);
+
+  const signUp = () => {
+    user.create(username, password1, (e) => {
+      console.log(e);
+      if (e.err)
+        setStatus("Error");
+      else
+        setStatus("logged In");
+    })
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signUp();
+  };
   return (
     <section>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
@@ -15,7 +45,7 @@ function Signup() {
           </div>
           <div className="mt-8">
             <div className="mt-6">
-              <form action="#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit} >
                 <div>
                   <label
                     htmlFor="email"
@@ -33,6 +63,13 @@ function Signup() {
                       required=""
                       placeholder="Your Email"
                       className="block w-full transform rounded-lg hover:shadow-md border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      value={username}
+                      onChange={(event) => {
+                        setUsername((u) => {
+                          console.log(event.target.value);
+                          return event.target.value;
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -53,6 +90,13 @@ function Signup() {
                       required=""
                       placeholder="Your Password"
                       className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      value={password1}
+                      onChange={(event) => {
+                        setPassword1((u) => {
+                          console.log(event.target.value);
+                          return event.target.value;
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -73,6 +117,13 @@ function Signup() {
                       required=""
                       placeholder="Your Password"
                       className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      value={password2}
+                      onChange={(event) => {
+                        setPassword2((u) => {
+                          console.log(event.target.value);
+                          return event.target.value;
+                        });
+                      }}
                     />
                   </div>
                 </div>
