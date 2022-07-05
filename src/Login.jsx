@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import Button from "./component/Button.jsx";
 
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+
+
   useEffect(() => {
     setUsername("ahis");
   }, []);
+
+  const logIn = () => {
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    logIn();
+  };
+
   return (
     <section>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
@@ -22,7 +34,7 @@ function Login() {
           </div>
           <div className="mt-8">
             <div className="mt-6">
-              <form action="#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="email"
@@ -104,7 +116,10 @@ function Login() {
                     </a>
                   </div>
                 </div>
-                <Button text="Sign In" />
+                <Button
+                  type="submit"
+                  text="Sign In"
+                />
               </form>
             </div>
           </div>

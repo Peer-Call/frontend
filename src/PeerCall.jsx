@@ -1,6 +1,9 @@
 import Button from "./component/Button.jsx";
+import {Link} from "react-router-dom"
+// import { useNavigate } from "react-router-dom";
 
 function PeerCall() {
+  // let navigate = useNavigate();
   return (
     <section>
       <div className="relative items-center w-full px-5 py-12 mx-auto md:px-12 lg:px-16 max-w-7xl lg:py-24">
@@ -19,6 +22,7 @@ function PeerCall() {
                 <div className="mt-3 rounded-lg mr-12 sm:mt-0">
                   <Button text="Start Call" />
                 </div>
+                  <Link to="/signin">
                 <div className="mt-3 rounded-lg sm:mt-0 sm:ml-3">
                   <Button
                     text="Sign in"
@@ -26,8 +30,13 @@ function PeerCall() {
                     marg="4"
                     textcolor="blue-600"
                     hovertext="white"
+                    // onClick={() => {
+                    //   console.log("sign in button clicked");
+                    //   navigate("/signin");
+                    // }}
                   />
                 </div>
+                </Link>
               </div>
             </div>
           </div>
