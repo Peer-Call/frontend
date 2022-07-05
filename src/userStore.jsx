@@ -6,21 +6,10 @@ const userStore = createStore(
     updateUser: action((state, payload) => {
       state.username = payload;
     }),
-  }),
+  }, {
+    storage: 'localStorage'
+  }
+  ),
 );
 
-
-// const userStore = createStore({
-//   persist({
-//     username: "",
-
-
-//   }),
-// });
-
 export default userStore;
-
-// user: {
-//   updateUser: action((state, payload) => {
-//   }),
-//   },

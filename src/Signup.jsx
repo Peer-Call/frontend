@@ -19,18 +19,20 @@ function Signup() {
   const signUp = () => {
     user.create(username, password1, (e) => {
       console.log(e);
-      if (e.err)
+      if (e.err) {
         setStatus("Error");
-      else
+      }
+      else {
         setStatus("logged In");
+      }
     })
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     signUp();
   };
+
   return (
     <section>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
