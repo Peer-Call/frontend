@@ -151,7 +151,7 @@ function Signup() {
                     ></a>
                   </div>
                 </div>
-                <Button text="Sign Up" />
+                <Button type="submit" text="Sign Up" />
               </form>
             </div>
           </div>
