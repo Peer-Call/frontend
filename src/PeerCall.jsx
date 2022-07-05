@@ -10,7 +10,7 @@ import { useStoreState } from 'easy-peasy';
 
 
 function PeerCall() {
-  const s_user = useStoreState((state) => state.user.username);
+  const s_user = useStoreState((state) => state.username);
   const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
   const user = db.user()
   let navigate = useNavigate();

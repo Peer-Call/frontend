@@ -1,12 +1,26 @@
-import { createStore, action, debug } from 'easy-peasy';
+import { createStore, action, persist } from 'easy-peasy';
 
-const userStore = createStore({
-  user: {
+const userStore = createStore(
+  persist({
     username: "",
     updateUser: action((state, payload) => {
       state.username = payload;
     }),
-  },
-});
+  }),
+);
+
+
+// const userStore = createStore({
+//   persist({
+//     username: "",
+
+
+//   }),
+// });
 
 export default userStore;
+
+// user: {
+//   updateUser: action((state, payload) => {
+//   }),
+//   },

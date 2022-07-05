@@ -13,8 +13,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
-  const s_user = useStoreState((state) => state.user.username);
-  const updateUser = useStoreActions((actions) => actions.user.updateUser);
+  const s_user = useStoreState((state) => state.username);
+  const updateUser = useStoreActions((actions) => actions.updateUser);
 
   const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
   const user = db.user()
