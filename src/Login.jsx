@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./component/Button.jsx";
-
-// import db from './GunInstance.js'
-// import user from './GunInstance.js'
 
 import GUN from "gun/gun";
 import "gun/sea";
 
+import { useStoreState, useStoreActions } from 'easy-peasy';
+
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("Not logged in");
+  const [status, setStatus] = useState("");
 
+  const s_user = useStoreState((state) => state.user.username);
+  const updateUser = useStoreActions((actions) => actions.user.updateUser);
 
-  const db = GUN();
-  const user = db.user().recall({ sessionStorage: true });
+  const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
+  const user = db.user()
+
+  let navigate = useNavigate();
 
   useEffect(() => {
+    if (s_user != "") {
+      setUsername(s_user)
+    }
+    else {
+      setUsername("Not logged in")
+    }
     setUsername("ahis@gmail.com");
     setPassword("ahis@gmail.com");
   }, []);
@@ -25,7 +36,11 @@ function Login() {
     user.auth(username, password, (e) => {
       console.log(e);
       if (e.err) setStatus("Error");
-      else setStatus("logged In");
+      else {
+        setStatus("logged In");
+        updateUser(username);
+        navigate("/");
+      }
     });
   };
 
@@ -139,6 +154,8 @@ function Login() {
           </div>
         </div>
         {status}
+        <br />
+        {s_user}
       </div>
     </section>
   );

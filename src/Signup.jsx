@@ -7,8 +7,8 @@ function Signup() {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
-  const db = GUN()
-  const user = db.user().recall({ sessionStorage: true });
+  const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
+  const user = db.user()
 
   useEffect(() => {
     setUsername("ahis@gmail.com");
