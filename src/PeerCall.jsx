@@ -45,7 +45,7 @@ function PeerCall() {
                 <h1 className="max-w-5xl text-2xl font-bold leading-none tracking-tighter text-neutral-600 md:text-5xl lg:text-6xl lg:max-w-7xl">
                   Free and Open source <br />
                   Decentralised Video Calling app <br />
-                  {s_user.alias}
+                  {s_user.username}
                 </h1>
                 <p className="max-w-xl mx-auto mt-8 text-base leading-relaxed text-gray-500">
                   We made PeerCall video calling privacy friendly and
