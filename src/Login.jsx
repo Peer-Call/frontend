@@ -54,7 +54,7 @@ function Login() {
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-xl lg:w-96">
           <div>
-            <a href="./index.html" className="text-medium text-blue-600">
+            <a href="/" className="text-medium text-blue-600">
               Peercall
             </a>
             <h2 className="mt-6 text-3xl font-extrabold text-neutral-600">
