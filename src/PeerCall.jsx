@@ -1,24 +1,18 @@
 import Button from "./component/Button.jsx";
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-
-import GUN from "gun/gun";
-import "gun/sea";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useStoreState, useStoreRehydrated } from 'easy-peasy';
 
-
 function PeerCall() {
-  const s_user = useStoreState((state) => state.username);
+  const s_user = useStoreState((state) => state.user);
   const isRehydrated = useStoreRehydrated();
-
-  const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
-  const user = db.user()
 
   let navigate = useNavigate();
 
   useEffect(() => {
+    console.log(s_user);
   }, []);
 
   return (
@@ -31,7 +25,7 @@ function PeerCall() {
                 <h1 className="max-w-5xl text-2xl font-bold leading-none tracking-tighter text-neutral-600 md:text-5xl lg:text-6xl lg:max-w-7xl">
                   Free and Open source <br />
                   Decentralised Video Calling app <br />
-                  {s_user}
+                  {s_user.alias}
                 </h1>
                 <p className="max-w-xl mx-auto mt-8 text-base leading-relaxed text-gray-500">
                   We made PeerCall video calling privacy friendly and
@@ -40,7 +34,7 @@ function PeerCall() {
                 <div className="flex justify-center w-full max-w-2xl mt-12 mx-auto mt-6">
                   <div className="mt-3 rounded-lg mr-12 sm:mt-0">
                     <Button text="Start Call" onClick={() => {
-                      if (s_user != "") {
+                      if (s_user.hasOwnProperty('alias')) {
                         navigate("/videocall");
                       }
                       else {

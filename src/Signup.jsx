@@ -15,9 +15,9 @@ function Signup() {
   const updateUser = useStoreActions((actions) => actions.updateUser);
 
   useEffect(() => {
-    setUsername("ahis@gmail.com");
-    setPassword1("ahis@gmail.com");
-    setPassword2("ahis@gmail.com");
+    setUsername("nice@nice.com");
+    setPassword1("nice@nice.com");
+    setPassword2("nice@nice.com");
   }, []);
 
   const signUp = () => {
