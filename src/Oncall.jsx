@@ -1,6 +1,5 @@
-import Button from "./component/Button.jsx";
 import CircleButton from "./component/CircleButton";
-import { FiPhone,FiVideo,FiMic } from "react-icons/fi";
+import { FiPhone, FiVideo, FiMic } from "react-icons/fi";
 
 function Oncall() {
   return (
@@ -14,19 +13,15 @@ function Oncall() {
             alt="image"
           ></img>
           <div className=" flex space-x-4 left-1/2 bottom-0 mb-8 -translate-x-1/2 absolute ">
-
-            
-            <CircleButton blur={true}  >
-            <FiMic color="white"/>
+            <CircleButton blur={true}>
+              <FiMic color="white" />
             </CircleButton>
             <CircleButton color="red-700">
-              <FiPhone color="white"/>
+              <FiPhone color="white" />
             </CircleButton>
-            <CircleButton blur={true} >
-            <FiVideo color="white"/>
+            <CircleButton blur={true}>
+              <FiVideo color="white" />
             </CircleButton>
-
-            
           </div>
         </div>
         <div className="w-full p-4 rounded-3xl">
