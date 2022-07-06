@@ -1,18 +1,36 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./component/Button.jsx";
 
+import { useStoreState, useStoreActions } from 'easy-peasy';
+
+import { db, user } from './GunInstance'
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [status, setStatus] = useState("");
+
+  const s_user = useStoreState((state) => state.user);
+  const updateUser = useStoreActions((actions) => actions.updateUser);
+
+  let navigate = useNavigate();
 
 
 
   useEffect(() => {
-    setUsername("ahis");
+    setUsername("nice");
+    setPassword("nice@nice.com");
   }, []);
-
   const logIn = () => {
+    user.auth(username, password, (e) => {
+      if (e.err) setStatus("Error");
+      else {
+        setStatus("logged In");
+        updateUser({ username: username, password: password });
+        navigate("/");
+      }
+    });
   };
 
   const handleSubmit = (e) => {
@@ -25,7 +43,7 @@ function Login() {
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-xl lg:w-96">
           <div>
-            <a href="./index.html" className="text-medium text-blue-600">
+            <a href="/" className="text-medium text-blue-600">
               Peercall
             </a>
             <h2 className="mt-6 text-3xl font-extrabold text-neutral-600">
@@ -37,20 +55,18 @@ function Login() {
               <form onSubmit={handleSubmit}>
                 <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="username"
                     className="block text-sm font-medium text-neutral-600"
                   >
                     {" "}
-                    Email address{" "}
+                    Username{" "}
                   </label>
                   <div className="mt-1 ">
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
+                      id="username"
+                      name="username"
                       required=""
-                      placeholder="Your Email"
+                      placeholder="Your Username"
                       className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                       value={username}
                       onChange={(event) => {
@@ -124,6 +140,9 @@ function Login() {
             </div>
           </div>
         </div>
+        {status}
+        <br />
+        {s_user.alias}
       </div>
     </section>
   );
