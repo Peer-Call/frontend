@@ -1,18 +1,38 @@
 import Button from "./component/Button.jsx";
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { db, user } from "./GunInstance.js";
 
 import { useStoreState, useStoreRehydrated } from 'easy-peasy';
 
 function PeerCall() {
   const s_user = useStoreState((state) => state.user);
   const isRehydrated = useStoreRehydrated();
+  const [IsLoggedIn, setIsLoggedIn] = useState(false);
 
   let navigate = useNavigate();
 
   useEffect(() => {
     console.log(s_user);
+    if (!IsLoggedIn) {
+      user.auth(s_user.username, s_user.password, (e) => {
+        if (e.err) console.log(e.err)
+        else {
+          console.log(e)
+          setIsLoggedIn(true);
+          db.get("~@nice@nice.com").once(console.log)
+          db.get('key').put({
+            property: 'value',
+            object: {
+              nested: true
+            }
+          })
+          db.get('key').once(console.log)
+        }
+      })
+    }
   }, []);
 
   return (
@@ -34,7 +54,7 @@ function PeerCall() {
                 <div className="flex justify-center w-full max-w-2xl mt-12 mx-auto mt-6">
                   <div className="mt-3 rounded-lg mr-12 sm:mt-0">
                     <Button text="Start Call" onClick={() => {
-                      if (s_user.hasOwnProperty('alias')) {
+                      if (IsLoggedIn) {
                         navigate("/videocall");
                       }
                       else {

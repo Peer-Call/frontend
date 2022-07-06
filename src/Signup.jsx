@@ -1,7 +1,7 @@
 import Button from "./component/Button.jsx";
 import { useEffect, useState } from "react";
 
-import user from "./GunInstance";
+import { db, user } from "./GunInstance";
 import { useNavigate } from "react-router-dom";
 import { useStoreActions } from 'easy-peasy';
 
@@ -15,7 +15,7 @@ function Signup() {
   const updateUser = useStoreActions((actions) => actions.updateUser);
 
   useEffect(() => {
-    setUsername("nice@nice.com");
+    setUsername("nice");
     setPassword1("nice@nice.com");
     setPassword2("nice@nice.com");
   }, []);
@@ -66,8 +66,8 @@ function Signup() {
                     <input
                       id="email"
                       name="email"
-                      type="email"
-                      autoComplete="email"
+                      // type="email"
+                      // autoComplete="email"
                       required=""
                       placeholder="Your Email"
                       className="block w-full transform rounded-lg hover:shadow-md border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"

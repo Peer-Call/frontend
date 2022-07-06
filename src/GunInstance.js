@@ -10,4 +10,4 @@ const db = GUN({
 const user = db.user()
 
 // Usage: use import gunInstance from './GunInstance.js'
-export default user;
+export { db, user };
