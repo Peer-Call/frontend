@@ -48,10 +48,10 @@ function PeerCall() {
                       }
                     }} />
                   </div>
-                  <Link to="/signin">
+                  <Link to="/signup">
                     <div className="mt-3 rounded-lg sm:mt-0 sm:ml-3">
                       <Button
-                        text="Sign in"
+                        text="Sign up"
                         color="white"
                         marg="4"
                         textcolor="blue-600"
