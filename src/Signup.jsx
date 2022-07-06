@@ -1,14 +1,18 @@
 import Button from "./component/Button.jsx";
 import { useEffect, useState } from "react";
 
+import user from "./GunInstance";
+import { useNavigate } from "react-router-dom";
+import { useStoreActions } from 'easy-peasy';
+
 function Signup() {
-  const [status, setStatus] = useState("Not logged in");
+  const [status, setStatus] = useState("");
   const [username, setUsername] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
-  const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
-  const user = db.user()
+  let navigate = useNavigate();
+  const updateUser = useStoreActions((actions) => actions.updateUser);
 
   useEffect(() => {
     setUsername("ahis@gmail.com");
@@ -20,10 +24,12 @@ function Signup() {
     user.create(username, password1, (e) => {
       console.log(e);
       if (e.err) {
-        setStatus("Error");
+        setStatus(e.err);
       }
       else {
         setStatus("logged In");
+        updateUser(username);
+        navigate("/");
       }
     })
   };
@@ -156,6 +162,7 @@ function Signup() {
                 <Button type="submit" text="Sign Up" />
               </form>
             </div>
+            {status}
           </div>
         </div>
       </div>

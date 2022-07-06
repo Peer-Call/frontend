@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./component/Button.jsx";
 
-import GUN from "gun/gun";
-import "gun/sea";
+// import GUN from "gun/gun";
+// import "gun/sea";
 
 import { useStoreState, useStoreActions } from 'easy-peasy';
-
+import user from './GunInstance'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -16,8 +16,8 @@ function Login() {
   const s_user = useStoreState((state) => state.username);
   const updateUser = useStoreActions((actions) => actions.updateUser);
 
-  const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
-  const user = db.user()
+  // const db = GUN({ peers: ['http://peercall-gun.herokuapp.com/gun'], localStorage: false, retry: Infinity });
+  // const user = db.user()
 
   let navigate = useNavigate();
 

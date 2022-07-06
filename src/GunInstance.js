@@ -1,11 +1,13 @@
 import GUN from 'gun/gun';
 import 'gun/sea';
-// import 'gun/axe';
 
-// change the relay server url - deploy that heroku thing
-const db = GUN();
+const db = GUN({
+  peers: ['http://peercall-gun.herokuapp.com/gun'],
+  localStorage: false,
+  retry: Infinity
+});
 
-export const user = db.user().recall({ sessionStorage: true });
+const user = db.user()
 
 // Usage: use import gunInstance from './GunInstance.js'
-export default db;
+export default user;
