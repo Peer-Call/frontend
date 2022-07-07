@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./component/Button.jsx";
 
-import { useStoreState, useStoreActions } from 'easy-peasy';
+import { useStoreState, useStoreActions } from "easy-peasy";
 
-import { db, user } from './GunInstance'
+import { db, user } from "./GunInstance";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -16,12 +16,11 @@ function Login() {
 
   let navigate = useNavigate();
 
-
-
   useEffect(() => {
     setUsername("nice");
     setPassword("nice@nice.com");
   }, []);
+
   const logIn = () => {
     user.auth(username, password, (e) => {
       if (e.err) setStatus("Error");
@@ -58,10 +57,9 @@ function Login() {
                     htmlFor="username"
                     className="block text-sm font-medium text-neutral-600"
                   >
-                    {" "}
-                    Username{" "}
+                    Username
                   </label>
-                  <div className="mt-1 ">
+                  <div className="mt-1">
                     <input
                       id="username"
                       name="username"
@@ -83,8 +81,7 @@ function Login() {
                     htmlFor="password"
                     className="block text-sm font-medium text-neutral-600"
                   >
-                    {" "}
-                    Password{" "}
+                    Password
                   </label>
                   <div className="mt-1 ">
                     <input
@@ -118,8 +115,7 @@ function Login() {
                       htmlFor="remember-me"
                       className="ml-2 block text-sm text-neutral-600"
                     >
-                      {" "}
-                      Remember me{" "}
+                      Remember me
                     </label>
                   </div>
                   <div className="text-sm">
@@ -127,15 +123,11 @@ function Login() {
                       href="#"
                       className="font-medium text-blue-600 hover:text-blue-500"
                     >
-                      {" "}
-                      Forgot your password?{" "}
+                      Forgot your password?
                     </a>
                   </div>
                 </div>
-                <Button
-                  type="submit"
-                  text="Sign In"
-                />
+                <Button type="submit" text="Sign In" />
               </form>
             </div>
           </div>
