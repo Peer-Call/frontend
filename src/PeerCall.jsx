@@ -92,6 +92,7 @@ function PeerCall() {
                       onClick={() => {
                         let text = "Do you really want to LogOut?";
                         if (confirm(text) == true) {
+                          setIsLoggedIn(false);
                           updateUser({});
                         }
                       }}
