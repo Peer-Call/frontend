@@ -7,6 +7,7 @@ import { useStoreActions } from 'easy-peasy';
 
 function Signup() {
   const [status, setStatus] = useState("");
+  const [usernameExists, setUsernameExists] = useState(false);
   const [username, setUsername] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
@@ -16,22 +17,33 @@ function Signup() {
 
   useEffect(() => {
     setUsername("nice");
-    setPassword1("nice@nice.com");
-    setPassword2("nice@nice.com");
+    setPassword1("nice@nice.co");
+    setPassword2("nice@nice.co");
   }, []);
 
   const signUp = () => {
-    user.create(username, password1, (e) => {
-      console.log(e);
-      if (e.err) {
-        setStatus(e.err);
-      }
-      else {
-        setStatus("logged In");
-        updateUser(username);
-        navigate("/");
-      }
-    })
+
+    if (password1 != password2) {
+      setStatus("Passwords should match")
+      return
+    }
+
+    user.get("~@" + username).once(() => {
+      setUsernameExists(true); setStatus("User with username already exists")
+    });
+
+    if (usernameExists == false) {
+      user.create(username, password1, (e) => {
+        if (e.err) {
+          setStatus(e.err);
+        }
+        else {
+          setStatus("logged In");
+          updateUser({ username: username, password: password1 });
+          navigate("/");
+        }
+      })
+    }
   };
 
   const handleSubmit = (e) => {
@@ -72,7 +84,7 @@ function Signup() {
                       value={username}
                       onChange={(event) => {
                         setUsername((u) => {
-                          console.log(event.target.value);
+                          // console.log(event.target.value);
                           return event.target.value;
                         });
                       }}
@@ -99,7 +111,7 @@ function Signup() {
                       value={password1}
                       onChange={(event) => {
                         setPassword1((u) => {
-                          console.log(event.target.value);
+                          // console.log(event.target.value);
                           return event.target.value;
                         });
                       }}
@@ -126,7 +138,7 @@ function Signup() {
                       value={password2}
                       onChange={(event) => {
                         setPassword2((u) => {
-                          console.log(event.target.value);
+                          // console.log(event.target.value);
                           return event.target.value;
                         });
                       }}

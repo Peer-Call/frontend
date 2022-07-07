@@ -5,10 +5,13 @@ import { useEffect, useState } from "react";
 
 import { db, user } from "./GunInstance.js";
 
-import { useStoreState, useStoreRehydrated } from "easy-peasy";
+import { useStoreState, useStoreRehydrated, useStoreActions } from "easy-peasy";
+
+import Avatar from "./component/Avatar";
 
 function PeerCall() {
   const s_user = useStoreState((state) => state.user);
+  const updateUser = useStoreActions((actions) => actions.updateUser);
   const isRehydrated = useStoreRehydrated();
   const [IsLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -52,6 +55,10 @@ function PeerCall() {
                   decentralised so that you can communicate freely.
                 </p>
                 <div className="flex justify-center w-full max-w-2xl mt-12 mx-auto mt-6">
+                  {s_user.username ?
+                    <Avatar username={s_user.username} />
+                    : <div></div>
+                  }
                   <div className="mt-3 rounded-lg mr-12 sm:mt-0">
                     <Button
                       text="Start Call"
@@ -72,13 +79,24 @@ function PeerCall() {
                         marg="4"
                         textcolor="blue-600"
                         hovertext="white"
-                        // onClick={() => {
-                        //   console.log("sign in button clicked");
-                        //   navigate("/signin");
-                        // }}
+                      // onClick={() => {
+                      //   console.log("sign in button clicked");
+                      //   navigate("/signin");
+                      // }}
                       />
                     </div>
                   </Link>
+                  <div className="mt-3 rounded-lg mr-12 sm:mt-0">
+                    <Button
+                      text="Logout"
+                      onClick={() => {
+                        let text = "Do you really want to LogOut?";
+                        if (confirm(text) == true) {
+                          updateUser({});
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -4,7 +4,6 @@ const userStore = createStore(
   persist({
     user: {},
     updateUser: action((state, payload) => {
-      console.log(payload, "Payload : ");
       state.user = payload;
     }),
   }, {
