@@ -22,7 +22,7 @@ function PeerCall() {
         else {
           console.log(e);
           setIsLoggedIn(true);
-          db.get("~@nice@nice.com").once(console.log);
+          db.get("~@nice").once(console.log);
           db.get("key").put({
             property: "value",
             object: {
