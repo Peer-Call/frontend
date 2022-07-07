@@ -54,7 +54,7 @@ function PeerCall() {
                   We made PeerCall video calling privacy friendly and
                   decentralised so that you can communicate freely.
                 </p>
-                <div className="flex justify-center w-full max-w-2xl mt-12 mx-auto mt-6">
+                <div className="flex justify-center w-full max-w-2xl mx-auto mt-6">
                   {s_user.username ?
                     <Avatar username={s_user.username} />
                     : <div></div>
@@ -75,9 +75,9 @@ function PeerCall() {
                     <div className="mt-3 rounded-lg sm:mt-0 sm:ml-3">
                       <Button
                         text="Sign up"
-                        color="white"
-                        marg="4"
-                        textcolor="blue-600"
+                        color="bg-white"
+                        marg="mr-4"
+                        textcolor="text-blue-600"
                         hovertext="white"
                       // onClick={() => {
                       //   console.log("sign in button clicked");
