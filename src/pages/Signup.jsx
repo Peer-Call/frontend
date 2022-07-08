@@ -1,7 +1,7 @@
-import Button from "./component/Button.jsx";
+import Button from "../component/Button.jsx";
 import { useEffect, useState } from "react";
 
-import { db, user } from "./GunInstance";
+import { db, user } from "../GunInstance";
 import { useNavigate } from "react-router-dom";
 import { useStoreActions } from 'easy-peasy';
 

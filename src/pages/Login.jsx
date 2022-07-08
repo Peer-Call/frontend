@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./component/Button.jsx";
+import Button from "../component/Button.jsx";
 
 import { useStoreState, useStoreActions } from 'easy-peasy';
 
-import { db, user } from './GunInstance'
+import { db, user } from '../GunInstance'
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,8 +15,6 @@ function Login() {
   const updateUser = useStoreActions((actions) => actions.updateUser);
 
   let navigate = useNavigate();
-
-
 
   useEffect(() => {
     setUsername("nice");

@@ -1,4 +1,4 @@
-import CircleButton from "./component/CircleButton";
+import CircleButton from "../component/CircleButton";
 import { FiPhone, FiVideo, FiMic } from "react-icons/fi";
 
 function Oncall() {
