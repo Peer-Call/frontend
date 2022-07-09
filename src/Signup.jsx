@@ -1,54 +1,66 @@
 import Button from "./component/Button.jsx";
 import { useEffect, useState } from "react";
 
-import { db, user } from "./GunInstance";
+import { user } from "./GunInstance";
 import { useNavigate } from "react-router-dom";
-import { useStoreActions } from 'easy-peasy';
 
 function Signup() {
   const [status, setStatus] = useState("");
-  const [usernameExists, setUsernameExists] = useState(false);
+  const [isDuplicateUsername, setIsDuplicateUsername] = useState(false);
+
   const [username, setUsername] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   let navigate = useNavigate();
-  const updateUser = useStoreActions((actions) => actions.updateUser);
 
   useEffect(() => {
-    setUsername("nice");
-    setPassword1("nice@nice.co");
-    setPassword2("nice@nice.co");
+    const username = "sadbutterfly507";
+    const password = "9gh[hc/=7-mt/3'z,'exic2``txvohbm`c9-5;]]";
+    setUsername(username);
+    setPassword(password);
+    setConfirmPassword(password);
   }, []);
 
   const signUp = () => {
-
-    if (password1 != password2) {
-      setStatus("Passwords should match")
-      return
+    // TODO: this check should be shifted to onFocusOut in confirm password input field
+    // field
+    if (password !== confirmPassword) {
+      setStatus("Passwords should match");
+      return;
     }
 
-    user.get("~@" + username).once(() => {
-      setUsernameExists(true); setStatus("User with username already exists")
+    user.get(`~@${username}`).once(() => {
+      setIsDuplicateUsername(true);
+      setStatus("User with username already exists");
     });
 
-    if (usernameExists == false) {
-      user.create(username, password1, (e) => {
-        if (e.err) {
-          setStatus(e.err);
+    if (!isDuplicateUsername) {
+      user.create(username, password, (ack) => {
+        if (ack.err) {
+          console.log("[signUp()] :", "error :", ack);
+          setStatus(ack.err);
+          return;
         }
-        else {
-          setStatus("logged In");
-          updateUser({ username: username, password: password1 });
-          navigate("/");
-        }
-      })
-    }
-  };
+        // TODO: show notification that user is created
+        console.log(
+          "[signUp()] :",
+          `username : ${username}, password : ${password} created`
+        );
+        console.log("[signUp()] :", "ack :", ack);
+        navigate("/");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    signUp();
+        // if (e.err) {
+        //   setStatus(e.err);
+        // } else {
+        //   // FIXME: this is not logging into gun, just saving the username in
+        //   // the userStore
+        //   setStatus("logged In");
+        //   updateUser({ username: username, password: password });
+        //   navigate("/");
+        // }
+      });
+    }
   };
 
   return (
@@ -65,7 +77,12 @@ function Signup() {
           </div>
           <div className="mt-8">
             <div className="mt-6">
-              <form onSubmit={handleSubmit} >
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  signUp();
+                }}
+              >
                 <div>
                   <label
                     htmlFor="username"
@@ -108,9 +125,9 @@ function Signup() {
                       required=""
                       placeholder="Your Password"
                       className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      value={password1}
+                      value={password}
                       onChange={(event) => {
-                        setPassword1((u) => {
+                        setPassword((u) => {
                           // console.log(event.target.value);
                           return event.target.value;
                         });
@@ -135,9 +152,9 @@ function Signup() {
                       required=""
                       placeholder="Your Password"
                       className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      value={password2}
+                      value={confirmPassword}
                       onChange={(event) => {
-                        setPassword2((u) => {
+                        setConfirmPassword((u) => {
                           // console.log(event.target.value);
                           return event.target.value;
                         });
