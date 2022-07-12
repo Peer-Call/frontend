@@ -3,7 +3,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Oncall from "./Oncall";
 import PeerCall from "./PeerCall";
-import NotFound from "./NotFound"
+import NotFound from "./NotFound";
 import { useEffect, useState } from "react";
 import { user } from "./GunInstance";
 import { useLocation } from "react-router-dom";
@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     console.log("[Root useEffect]:", "location :", location);
     console.log("[Root useEffect] :", "user.is value:", user.is);
+    console.log("[Root useEffect] :", user);
     user.get("alias").on((user) => {
       console.log("[Root useEffect] :", "username from gun :", user);
       // setUsername(user);
