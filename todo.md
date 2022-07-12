@@ -4,8 +4,12 @@
 
 - [ ] User profile avatar on top right corner if the user is logged in.
 - [ ] Make meeting url copyable inside the video call page when the call is started.
-- [ ] Make a logout button.
+- [x] Make a logout button.
 - [ ] Toggle password button ( an eye icon at the end of the password textfield )
+
+## Gunjs auth
+
+- [ ]
 
 ## Database
 

@@ -15,11 +15,11 @@ function Signup() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    const username = "sadbutterfly507";
-    const password = "9gh[hc/=7-mt/3'z,'exic2``txvohbm`c9-5;]]";
-    setUsername(username);
-    setPassword(password);
-    setConfirmPassword(password);
+    // const username = "sadbutterfly507";
+    // const password = "9gh[hc/=7-mt/3'z,'exic2``txvohbm`c9-5;]]";
+    // setUsername(username);
+    // setPassword(password);
+    // setConfirmPassword(password);
   }, []);
 
   const signUp = () => {
@@ -113,8 +113,7 @@ function Signup() {
                     htmlFor="password"
                     className="block text-sm font-medium text-neutral-600"
                   >
-                    {" "}
-                    Password{" "}
+                    Password
                   </label>
                   <div className="mt-1 ">
                     <input

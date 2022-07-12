@@ -1,15 +1,19 @@
-import { createStore, action, persist } from 'easy-peasy';
+import { createStore } from "easy-peasy";
+import user from "./models/user";
+import videoCall from "./models/videoCall";
 
-const userStore = createStore(
-  persist({
-    user: {},
-    updateUser: action((state, payload) => {
-      state.user = payload;
-    }),
-  }, {
-    storage: 'localStorage'
-  }
-  ),
-);
+const globalModel = {
+  user,
+  videoCall,
+};
+const globalStore = createStore(globalModel, { name: "globalStore" });
+// persist(
+{
+}
+// {
+//   storage: "localStorage",
+// }
+// ),
+// );
 
-export default userStore;
+export default globalStore;

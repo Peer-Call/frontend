@@ -1,16 +1,16 @@
 import GUN from "gun/gun";
 import "gun/sea";
 
-const db = GUN({
+const gun = GUN({
   peers: [
     "https://gunjs.herokuapp.com/gun",
     "http://peercall-gun.herokuapp.com/gun",
   ],
-  localStorage: false,
-  retry: Infinity,
+  localStorage: true,
+  retry: 6,
 });
 
-const user = db.user();
+const user = gun.user();
 
 // Usage: use import gunInstance from './GunInstance.js'
-export { db, user };
+export { gun, user };

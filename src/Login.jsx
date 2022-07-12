@@ -4,37 +4,67 @@ import Button from "./component/Button.jsx";
 
 import { useStoreState, useStoreActions } from "easy-peasy";
 
-import { db, user } from "./GunInstance";
+import { gun, user } from "./GunInstance";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [localUsername, setLocalUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
-  const s_user = useStoreState((state) => state.user);
-  const updateUser = useStoreActions((actions) => actions.updateUser);
+  const { username } = useStoreState((state) => state.user);
+  const { setUsername, setGunUserId } = useStoreActions(
+    (actions) => actions.user
+  );
 
   let navigate = useNavigate();
 
   useEffect(() => {
-    setUsername("nice");
-    setPassword("nice@nice.com");
+    // setLocalUsername("sadbutterfly507");
+    // setPassword("9gh[hc/=7-mt/3'z,'exic2``txvohbm`c9-5;]]");
+    // gun.on("auth", (ack) => {
+    //   console.log("Authentication was successful: ", ack, localUsername);
+    //   // const videoCallId = nanoid();
+    //   // console.log("[On auth] :", "videoCallId :", videoCallId);
+    //   // console.log(
+    //   //   "[On auth] :",
+    //   //   "gunUserId :",
+    //   //   gunUserId,
+    //   //   "videoCallId :",
+    //   //   videoCallId
+    //   // );
+    //   // // TODO: create a new meeting in gun db and store it with users id too.
+    //   // let videocall = gun.get(videoCallId).put({
+    //   //   videoCallId: videoCallId,
+    //   //   hostId: gunUserId,
+    //   // });
+    //   // gun.get("videocalls").set(videocall);
+    //   // navigate(`/videocall/${videoCallId}`);
+    // });
   }, []);
 
   const logIn = () => {
-    user.auth(username, password, (e) => {
-      if (e.err) setStatus("Error");
-      else {
-        setStatus("logged In");
-        updateUser({ username: username, password: password });
-        navigate("/");
+    user.auth(localUsername, password, (ack) => {
+      if (ack.err) {
+        setStatus("Error :", ack.err);
+        console.log("[logIn()] :", "Error :", ack);
+        return;
       }
-    });
-  };
+      setStatus("logged In");
+      console.log("[logIn()] :", ack);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    logIn();
+      const gunUserId = ack?.soul;
+      console.log("[logIn()] :", "username", localUsername);
+      console.log("[logIn()] :", "gunUserId", gunUserId);
+      setUsername(localUsername);
+      setGunUserId(gunUserId);
+
+      // save to session storage
+      // user.recall({ sessionStorage: true }, () => {
+      //   console.log("[user.recall()]","hope it is stored in session")
+      // });
+
+      navigate("/");
+    });
   };
 
   return (
@@ -51,7 +81,12 @@ function Login() {
           </div>
           <div className="mt-8">
             <div className="mt-6">
-              <form onSubmit={handleSubmit}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  logIn();
+                }}
+              >
                 <div>
                   <label
                     htmlFor="username"
@@ -66,9 +101,9 @@ function Login() {
                       required=""
                       placeholder="Your Username"
                       className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      value={username}
+                      value={localUsername}
                       onChange={(event) => {
-                        setUsername((u) => {
+                        setLocalUsername((u) => {
                           console.log(event.target.value);
                           return event.target.value;
                         });
@@ -134,7 +169,7 @@ function Login() {
         </div>
         {status}
         <br />
-        {s_user.alias}
+        {username.alias}
       </div>
     </section>
   );
