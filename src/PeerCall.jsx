@@ -88,17 +88,14 @@ function PeerCall() {
                     <div className="mt-3 rounded-lg sm:mt-0 sm:ml-3">
                       <Button
                         text="Sign up"
-                        color="white"
-                        marg="4"
-                        textcolor="blue-600"
-                        hovertext="white"
+                        className="bg-white mr-4 text-blue-600 hover:text-white"
                       />
                     </div>
                   </Link>
                   <div className="mt-3 rounded-lg mr-12 sm:mt-0">
                     {isLoggedIn && (
                       <div className="fixed w-min right-4 top-4 flex">
-                        <Avatar username={username} className="inline"/>
+                        <Avatar username={username} className="inline" />
                         <Button
                           text="Logout"
                           onClick={() => {

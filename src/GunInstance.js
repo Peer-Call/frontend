@@ -10,7 +10,7 @@ const gun = GUN({
   retry: 6,
 });
 
-const user = gun.user();
+const user = gun.user().recall({ sessionStorage: true });
 
 // Usage: use import gunInstance from './GunInstance.js'
 export { gun, user };
