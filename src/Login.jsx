@@ -6,6 +6,9 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 
 import { gun, user } from "./GunInstance";
 
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import PasswordField from "./component/PasswordField";
+
 function Login() {
   const [localUsername, setLocalUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -76,7 +79,7 @@ function Login() {
               Peercall
             </a>
             <h2 className="mt-6 text-3xl font-extrabold text-neutral-600">
-              Sign in.
+              Sign in
             </h2>
           </div>
           <div className="mt-8">
@@ -118,25 +121,11 @@ function Login() {
                   >
                     Password
                   </label>
-                  <div className="mt-1 ">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required=""
-                      placeholder="Your Password"
-                      className="block w-full transform rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      value={password}
-                      onChange={(event) => {
-                        setPassword((u) => {
-                          console.log(event.target.value);
-                          return event.target.value;
-                        });
-                      }}
-                    />
-                  </div>
+
+                  <PasswordField/>
+                  
                 </div>
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <input
