@@ -10,7 +10,10 @@ const userModel = {
     state.username = payload;
   }),
   setGunUserId: action((state, payload) => {
-    console.log("[setGunUserId()] :", payload);
+    console.log("[setGunUserId()] :", "initial:", payload);
+    // remove ~ from gunUserId
+    if (payload.charAt(0) === "~") payload = payload.slice(1);
+    console.log("[setGunUserId()] :", "final:", payload);
     state.gunUserId = payload;
   }),
   logout: thunk((actions, state) => {

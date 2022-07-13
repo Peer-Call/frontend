@@ -54,17 +54,13 @@ function Login() {
       }
       setStatus("logged In");
       console.log("[logIn()] :", ack);
+      // console.log("[logIn()] :", "opt.uuid", ack.opt.uuid());
 
       const gunUserId = ack?.soul;
       console.log("[logIn()] :", "username", localUsername);
       console.log("[logIn()] :", "gunUserId", gunUserId);
       setUsername(localUsername);
       setGunUserId(gunUserId);
-
-      // save to session storage
-      // user.recall({ sessionStorage: true }, () => {
-      //   console.log("[user.recall()]","hope it is stored in session")
-      // });
 
       navigate("/");
     });
