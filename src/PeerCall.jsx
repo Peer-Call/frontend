@@ -74,13 +74,12 @@ function PeerCall() {
                 <h1 className="max-w-5xl text-2xl font-bold leading-none tracking-tighter text-neutral-600 md:text-5xl lg:text-6xl lg:max-w-7xl">
                   Free and Open source <br />
                   Decentralised Video Calling app <br />
-                  {username}
                 </h1>
                 <p className="max-w-xl mx-auto mt-8 text-base leading-relaxed text-gray-500">
                   We made PeerCall video calling privacy friendly and
                   decentralised so that you can communicate freely.
                 </p>
-                <div className="flex justify-center w-full max-w-2xl mt-12 mx-auto mt-6">
+                <div className="flex justify-center w-full max-w-2xl mx-auto mt-6">
                   <div className="mt-3 rounded-lg mr-12 sm:mt-0">
                     <Button text="Start Call" onClick={startCall} />
                   </div>
@@ -92,20 +91,10 @@ function PeerCall() {
                       />
                     </div>
                   </Link>
-                  <div className="mt-3 rounded-lg mr-12 sm:mt-0">
-                    {isLoggedIn && (
-                      <div className="fixed w-min right-4 top-4 flex">
-                        <Avatar username={username} className="inline" />
-                        <Button
-                          text="Logout"
-                          onClick={() => {
-                            // if (confirm("Do you really want to LogOut?")) {
-                            logout();
-                            // }
-                          }}
-                        />
-                      </div>
-                    )}
+                  <div className="absolute top-5 right-7">
+                    <div className="fixed w-min right-4 top-4 flex">
+                      <Avatar username={username} isLoggedIn={isLoggedIn} />
+                    </div>
                   </div>
                 </div>
               </div>
