@@ -26,6 +26,7 @@ function Signup() {
   const signUp = () => {
     // TODO: this check should be shifted to onFocusOut in confirm password input field
     // field
+
     if (password !== confirmPassword) {
       setStatus("Passwords should match");
       return;
@@ -116,7 +117,7 @@ function Signup() {
                   >
                     Password
                   </label>
-                  <PasswordField/>
+                  <PasswordField setPassword={setPassword} />
                 </div>
                 <div className="space-y-1">
                   <label
@@ -126,7 +127,7 @@ function Signup() {
                     {" "}
                     Confirm Password{" "}
                   </label>
-                  <PasswordField/>
+                  <PasswordField setPassword={setConfirmPassword} />
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">

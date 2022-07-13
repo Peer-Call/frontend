@@ -118,8 +118,8 @@ function Login() {
                     Password
                   </label>
 
-                  <PasswordField/>
-                  
+                  <PasswordField setPassword={setPassword} />
+
                 </div>
 
                 <div className="flex items-center justify-between">
