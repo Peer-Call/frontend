@@ -1,4 +1,5 @@
 import CircleButton from "./component/CircleButton";
+import Modal from "./component/Modal";
 import { FiPhone, FiVideo, FiVideoOff, FiMic, FiMicOff } from "react-icons/fi";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -72,7 +73,7 @@ function Oncall() {
       return;
     }
     try {
-      (async function () {
+      (async function() {
         videoElement.current.srcObject = await localStream;
         toggleMic(); // NOTE: remove this line later
       })();
@@ -104,8 +105,11 @@ function Oncall() {
       }
     });
 
+
+
   return (
     <section>
+      <Modal />
       <div className=" h-screen space-y-1  bg-black rounded-xl  grid grid-rows-3 grid-cols-4 ">
         <div className=" relative mt-2 w-full p-4 rounded-3xl col-span-3 row-span-3">
           <video autoPlay className="h-full scale-x-[-1]" ref={videoElement}></video>
@@ -125,7 +129,7 @@ function Oncall() {
             >
               {isMicOff ? <FiMicOff color="white" /> : <FiMic color="white" />}
             </CircleButton>
-            <CircleButton color="red-700">
+            <CircleButton color="bg-red-700">
               <FiPhone color="white" />
             </CircleButton>
             <CircleButton
@@ -165,7 +169,7 @@ function Oncall() {
           />
         </div>
       </div>
-    </section>
+    </section >
   );
 }
 

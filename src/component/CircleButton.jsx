@@ -3,11 +3,9 @@ function CircleButton(props) {
     <div>
       <button
         type="submit"
-        className={`w-12 h-12 border bg-${
-          props.color
-        } hover:scale-[1.1] flex justify-center items-center border-gray-600 rounded-full ${
-          props.blur ? "backdrop-blur-md" : null
-        }`}
+        className={`w-12 h-12 border ${props.color
+          } hover:scale-[1.1] flex justify-center items-center border-gray-600 rounded-full ${props.blur ? "backdrop-blur-md" : null
+          }`}
         onClick={props.onClick}
       >
         {props.children}
