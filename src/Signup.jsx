@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { user } from "./GunInstance";
 import { useNavigate } from "react-router-dom";
+import PasswordField from "./component/PasswordField.jsx";
 
 function Signup() {
   const [status, setStatus] = useState("");
@@ -115,24 +116,7 @@ function Signup() {
                   >
                     Password
                   </label>
-                  <div className="mt-1 ">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required=""
-                      placeholder="Your Password"
-                      className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      value={password}
-                      onChange={(event) => {
-                        setPassword((u) => {
-                          // console.log(event.target.value);
-                          return event.target.value;
-                        });
-                      }}
-                    />
-                  </div>
+                  <PasswordField/>
                 </div>
                 <div className="space-y-1">
                   <label
@@ -142,24 +126,7 @@ function Signup() {
                     {" "}
                     Confirm Password{" "}
                   </label>
-                  <div className="mt-1 ">
-                    <input
-                      id="confirm-password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required=""
-                      placeholder="Your Password"
-                      className="block w-full transform  hover:shadow-md rounded-lg border border-transparent bg-gray-50 px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      value={confirmPassword}
-                      onChange={(event) => {
-                        setConfirmPassword((u) => {
-                          // console.log(event.target.value);
-                          return event.target.value;
-                        });
-                      }}
-                    />
-                  </div>
+                  <PasswordField/>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
