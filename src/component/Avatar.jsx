@@ -36,9 +36,9 @@ function Avatar(props) {
         </div>
         :
         <div className="relative inline-flex">
-          <Link to="/signup">
+          <Link to="/signin">
             <button type="button" className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-xl border-2 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none border-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm" >
-              <span className="text-gray-600 font-medium truncate">Sign Up</span>
+              <span className="text-gray-600 font-medium truncate">Sign In</span>
             </button>
           </Link>
         </div>

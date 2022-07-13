@@ -1,10 +1,10 @@
 import { FiClipboard } from "react-icons/fi";
 
-function Modal(props) {
+function Modal() {
 
   return (
     <>
-      <div id="hs-basic-modal" class="flex z-10 absolute bottom-28 left-4 flex-col bg-white border shadow-sm rounded-xl">
+      <div id="hs-basic-modal" class="flex z-10 absolute bottom-16 left-14 flex-col bg-white border shadow-sm rounded-xl">
         <div class="flex justify-between items-center py-3 px-4 border-b ">
           <h3 class="font-bold text-gray-800 ">
             Here's the link to your meeting
@@ -23,12 +23,11 @@ function Modal(props) {
             you can use it later too.<br></br>
           </p>
         </div>
-        <div className="flex flex-row mx-2 bg-gray-200 rounded-l px-2 py-3 mb-2">
+        <div className="flex flex-row mx-2 bg-gray-200 rounded-l px-2 py-3 mb-2 cursor-pointer active:cursor-default" onClick={() => {
+          navigator.clipboard.writeText(window.location.href);
+        }}>
           {window.location.href}
-          <FiClipboard size={25} className="ml-2 hover:bg-gray-300" onClick={() => {
-            navigator.clipboard.writeText(window.location.href);
-          }}>
-
+          <FiClipboard size={25} className="ml-2" >
           </FiClipboard>
         </div>
         <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t ">
