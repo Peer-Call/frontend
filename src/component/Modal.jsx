@@ -32,7 +32,7 @@ function Modal(props) {
           </FiClipboard>
         </div>
         <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t ">
-          <button type="button" class="hs-dropdown-toggle py-3 px-4 bg-blue-600 inline-flex justify-center items-center gap-2 rounded-md border font-medium text-white shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm " data-hs-modal="#hs-basic-modal">
+          <button type="button" class="hs-dropdown-toggle py-3 px-4 bg-blue-600 inline-flex justify-center items-center gap-2 rounded-md border font-medium text-white shadow-sm align-middle hover:text-blue-600 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm " data-hs-modal="#hs-basic-modal">
             Close
           </button>
         </div>
