@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./component/Button.jsx";
 
@@ -20,30 +20,6 @@ function Login() {
 
   let navigate = useNavigate();
 
-  useEffect(() => {
-    // setLocalUsername("sadbutterfly507");
-    // setPassword("9gh[hc/=7-mt/3'z,'exic2``txvohbm`c9-5;]]");
-    // gun.on("auth", (ack) => {
-    //   console.log("Authentication was successful: ", ack, localUsername);
-    //   // const videoCallId = nanoid();
-    //   // console.log("[On auth] :", "videoCallId :", videoCallId);
-    //   // console.log(
-    //   //   "[On auth] :",
-    //   //   "gunUserId :",
-    //   //   gunUserId,
-    //   //   "videoCallId :",
-    //   //   videoCallId
-    //   // );
-    //   // // TODO: create a new meeting in gun db and store it with users id too.
-    //   // let videocall = gun.get(videoCallId).put({
-    //   //   videoCallId: videoCallId,
-    //   //   hostId: gunUserId,
-    //   // });
-    //   // gun.get("videocalls").set(videocall);
-    //   // navigate(`/videocall/${videoCallId}`);
-    // });
-  }, []);
-
   const logIn = () => {
     user.auth(localUsername, password, (ack) => {
       if (ack.err) {
@@ -64,10 +40,10 @@ function Login() {
       setGunUserId(gunUserId);
 
       if (isInVideoCall) {
-        navigate("/videocall/"+videoCallId)
-        return
+        navigate("/videocall/" + videoCallId);
+        return;
       }
-      
+
       navigate("/");
     });
   };

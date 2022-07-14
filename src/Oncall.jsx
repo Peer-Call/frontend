@@ -7,20 +7,26 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
 import { Peer } from "peerjs";
 
-let peer;
 function Oncall() {
   const { videoCallId } = useParams();
-  const videoElement = useRef();
+  const localVideoElement = useRef();
+  const remoteVideoElement = useRef();
+  const [call, setCall] = useState(null);
   const { username, gunUserId, isLoggedIn } = useStoreState(
     (state) => state.user
   );
-  const { setId, setHostId, setHostUsername, addParticipant } = useStoreActions(
-    (actions) => actions.videoCall
-  );
+  const {
+    setId,
+    setHostId,
+    setHostUsername,
+    addParticipant,
+    otherParticipantsCount,
+    isHost,
+  } = useStoreActions((actions) => actions.videoCall);
 
   let navigate = useNavigate();
 
-  const peer = new Peer(gunUserId)
+  const peerRef = useRef(new Peer(gunUserId));
 
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [isMicOff, setIsMicOff] = useState(true);
@@ -30,6 +36,7 @@ function Oncall() {
   const [localStream, setLocalStream] = useState(
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
   );
+  const [remoteStreams, setRemoteStreams] = useState([]);
 
   useEffect(() => {
     // 1. Checking if user is signed in otherwise send to sign in page
@@ -52,7 +59,7 @@ function Oncall() {
         [username]: gunUserId,
       });
 
-    console.log("[Peer]",peer)
+    console.log("[Peer]", peerRef.current);
 
     console.log("[Video Call useEffect] :", videoCallId);
 
@@ -80,9 +87,75 @@ function Oncall() {
               break;
           }
         });
-
       });
   }, []);
+
+  useEffect(() => {
+    if (!(otherParticipantsCount > 0)) return;
+    try {
+      peerRef.current.on("call", (call) => {
+        if (confirm(`Accept call from ${call.peer}`)) {
+          let stream;
+          (async function () {
+            stream = await localStream;
+          })();
+          call.answer(stream);
+          // TODO: save this call object to close the call
+          setCall(call);
+
+          call.on("stream", (remoteStream) => {
+            setRemoteStreams((s) => [...s, remoteStream]);
+          });
+        } else {
+          call.close();
+        }
+      });
+    } catch (error) {
+      console.error("[Accepting call] :", error);
+    }
+
+    if (!isHost) {
+      try {
+        const call = peerRef.current.call(otherParticipants[0].id, localStream);
+        call.on("stream", (remoteStream) => {
+          console.log("streaming call");
+          setRemoteStreams((s) => [...s, remoteStream]);
+        });
+        call.on("data", (remoteStream) => {
+          setRemoteStreams((s) => [...s, remoteStream]);
+        });
+        call.on("error", (err) => {
+          console.error(err);
+        });
+        call.on("close", () => {
+          console.log("Call is closed");
+          endCall();
+        });
+        setCall(call);
+      } catch (error) {
+        console.error("[peer calling] :", error);
+      }
+    }
+  }, [otherParticipantsCount]);
+
+  useEffect(() => {
+    const remoteStream = remoteStreams?.[0];
+    console.log("remoteStream :", remoteStream);
+    if (remoteStream) {
+      return;
+    }
+    try {
+      (async function () {
+        remoteVideoElement.current.srcObject = await remoteStream;
+        // remoteVideoElement.current.play()
+      })();
+      // TODO: close the previous stream here and in setState
+      // TODO: close this stream when it goes to different page and destroy the previous page
+      return;
+    } catch (err) {
+      console.error("Failed to get remote stream", err);
+    }
+  }, [remoteStreams]);
 
   useEffect(() => {
     console.log("localStream :", localStream);
@@ -91,7 +164,8 @@ function Oncall() {
     }
     try {
       (async function () {
-        videoElement.current.srcObject = await localStream;
+        localVideoElement.current.srcObject = await localStream;
+        localVideoElement.current.play();
         toggleMic(); // NOTE: remove this line later
         toggleVideo(); // NOTE: remove this line later
       })();
@@ -104,7 +178,7 @@ function Oncall() {
   }, [localStream]);
 
   const toggleVideo = () => {
-    videoElement.current.srcObject.getTracks().map((t) => {
+    localVideoElement.current.srcObject.getTracks().map((t) => {
       if (t.kind === "video") {
         const enabled = !t.enabled;
         t.enabled = enabled;
@@ -115,7 +189,7 @@ function Oncall() {
   };
 
   const toggleMic = () =>
-    videoElement.current.srcObject.getTracks().map((t) => {
+    localVideoElement.current.srcObject.getTracks().map((t) => {
       if (t.kind === "audio") {
         const enabled = !t.enabled;
         t.enabled = enabled;
@@ -123,14 +197,18 @@ function Oncall() {
       }
     });
 
+  const endCall = () => {
+    call?.close();
+  };
+
   return (
     <section>
       <div className=" h-screen space-y-1  bg-black rounded-xl  grid grid-rows-3 grid-cols-4 ">
         <div className=" relative mt-2 w-full p-4 rounded-3xl col-span-3 row-span-3">
           <video
             autoPlay
-            className="h-full scale-x-[-1]"
-            ref={videoElement}
+            className="scale-x-[-1] object-cover"
+            ref={remoteVideoElement}
           ></video>
           {/*<img
             className=" rounded-3xl h-full w-full mb-2"
@@ -148,7 +226,13 @@ function Oncall() {
             >
               {isMicOff ? <FiMicOff color="white" /> : <FiMic color="white" />}
             </CircleButton>
-            <CircleButton color="red-700">
+            <CircleButton
+              color="red-700"
+              onClick={() => {
+                console.log("ENDCALL");
+                endCall();
+              }}
+            >
               <FiPhone color="white" />
             </CircleButton>
             <CircleButton
@@ -166,12 +250,17 @@ function Oncall() {
             </CircleButton>
           </div>
         </div>
-        <div className="w-full p-4 rounded-3xl">
-          <img
+        <div className="w-full p-4 rounded-3xl overflow-hidden">
+          <video
+            autoPlay
+            className="scale-x-[-1] object-cover"
+            ref={localVideoElement}
+          ></video>
+          {/*<img
             className=" rounded-3xl"
             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
             alt="image"
-          />
+          />*/}
         </div>
         <div className=" w-full p-4 rounded-3xl">
           <img

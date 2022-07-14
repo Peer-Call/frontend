@@ -15,18 +15,20 @@ function App() {
   const { setUsername, setGunUserId } = useStoreActions(
     (actions) => actions.user
   );
+  const { setUserId } = useStoreActions((actions) => actions.videoCall);
 
   useEffect(() => {
     console.log("[Root useEffect]:", "location :", location);
     console.log("[Root useEffect] :", "user.is value:", user.is?.pub);
     setGunUserId(user?.is?.pub || "");
+
     user.get("alias").once((username) => {
       console.log(
         "[Root useEffect getAlias once] :",
         "username from gun :",
         username
       );
-      setUsername(username)
+      setUsername(username);
     });
   }, [user.is]);
 

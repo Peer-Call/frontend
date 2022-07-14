@@ -7,9 +7,6 @@ const videoCallModel = {
     username: "",
   },
   participants: [],
-  isInVideoCall: computed((state) => state.id !== ""),
-  // TODO: use below implementation later
-  // isInVideoCall: computed((state) => !!state.id),
   setId: action((state, payload) => {
     console.log("[setId()] :", payload);
     state.id = payload;
@@ -38,6 +35,24 @@ const videoCallModel = {
     console.log("[addParticipants()] :", payload);
     state.participants = payload;
   }),
+  isInVideoCall: computed((state) => !!state.id),
+  isHost: computed(
+    [(state) => state.host.id, (_, storeState) => storeState.user.gunUserId],
+    (hostId, userId) => {
+      if (hostId && userId) return hostId === userId;
+    }
+  ),
   participantCount: computed((state) => state.participants.length),
+  otherParticipantCount: computed((state) => state.otherParticipants.length),
+  otherParticipants: computed(
+    [
+      (state) => state.participants,
+      (_, storeState) => storeState.user.gunUserId,
+    ],
+    (participants, userId) => {
+      console.log("[otherParticipants]:", participants);
+      return participants?.filter((item) => userId !== item.id);
+    }
+  ),
 };
 export default videoCallModel;

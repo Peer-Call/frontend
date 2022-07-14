@@ -21,9 +21,7 @@ function PeerCall() {
   // useEffect(() => {
   //   console.log(s_user);
   //   if (!isLoggedIn) {
-  //     user.auth(s_user.username, s_user.password, (e) => {
-  //       if (e.err) console.log(e.err);
-  //       else {
+  //     user.auth(s_user.username, s_user.password, (e) => { if (e.err) console.log(e.err); else {
   //         console.log(e);
   //         setIsLoggedIn(true);
   //         gun.get("~@nice").once(console.log);
