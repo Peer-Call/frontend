@@ -11,15 +11,21 @@ let peer;
 function Oncall() {
   const { videoCallId } = useParams();
   const videoElement = useRef();
-  const { username, userId, isLoggedIn } = useStoreState((state) => state.user);
+  const { username, gunUserId, isLoggedIn } = useStoreState(
+    (state) => state.user
+  );
   const { setId, setHostId, setHostUsername, addParticipant } = useStoreActions(
     (actions) => actions.videoCall
   );
 
   let navigate = useNavigate();
 
+  const peer = new Peer(gunUserId)
+
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [isMicOff, setIsMicOff] = useState(true);
+
+  // const [peer, setPeer] = useState(null);
 
   const [localStream, setLocalStream] = useState(
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -30,13 +36,23 @@ function Oncall() {
     // 2. Create new Peer object using userId from store
     // 3. Get the video call id from the url bar and get the meeting data from
     // the gun database and store it in the local store
+    setId(videoCallId);
+
     if (!isLoggedIn) {
       navigate("/signin");
       return;
     }
 
-    // initialise peerjs object
-    peer = new Peer(userId);
+    // TODO: check if the participant is already in the call and skip the database user addition code
+    // NOTE: I think it doesn't need the above todo because it merges the same entry
+    gun
+      .get("videocalls")
+      .get(videoCallId)
+      .put({
+        [username]: gunUserId,
+      });
+
+    console.log("[Peer]",peer)
 
     console.log("[Video Call useEffect] :", videoCallId);
 
@@ -44,8 +60,10 @@ function Oncall() {
       .get("videocalls")
       .get(videoCallId)
       .on((data, id) => {
-        setId(id);
         console.log("===GUN DATA===");
+        console.log(data);
+        console.log("===GUN DATA END===");
+        setId(id);
         Object.entries(data).forEach((entry) => {
           const [key, value] = entry;
           switch (key) {
@@ -62,7 +80,7 @@ function Oncall() {
               break;
           }
         });
-        console.log("===GUN DATA END===");
+
       });
   }, []);
 
@@ -75,6 +93,7 @@ function Oncall() {
       (async function () {
         videoElement.current.srcObject = await localStream;
         toggleMic(); // NOTE: remove this line later
+        toggleVideo(); // NOTE: remove this line later
       })();
       // TODO: close the previous stream here and in setState
       // TODO: close this stream when it goes to different page and destroy the previous page
@@ -108,7 +127,11 @@ function Oncall() {
     <section>
       <div className=" h-screen space-y-1  bg-black rounded-xl  grid grid-rows-3 grid-cols-4 ">
         <div className=" relative mt-2 w-full p-4 rounded-3xl col-span-3 row-span-3">
-          <video autoPlay className="h-full scale-x-[-1]" ref={videoElement}></video>
+          <video
+            autoPlay
+            className="h-full scale-x-[-1]"
+            ref={videoElement}
+          ></video>
           {/*<img
             className=" rounded-3xl h-full w-full mb-2"
             // src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"

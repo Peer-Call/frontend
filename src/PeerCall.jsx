@@ -57,7 +57,7 @@ function PeerCall() {
     let videocall = gun.get(videoCallId).put({
       hostId: gunUserId,
       hostUsername: username,
-      [username]: gunUserId
+
     });
     gun.get("videocalls").set(videocall);
 

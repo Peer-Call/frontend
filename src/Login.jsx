@@ -12,6 +12,8 @@ function Login() {
   const [status, setStatus] = useState("");
 
   const { username } = useStoreState((state) => state.user);
+  const isInVideoCall = useStoreState((state) => state.videoCall.isInVideoCall);
+  const videoCallId = useStoreState((state) => state.videoCall.id);
   const { setUsername, setGunUserId } = useStoreActions(
     (actions) => actions.user
   );
@@ -47,6 +49,8 @@ function Login() {
       if (ack.err) {
         setStatus("Error :", ack.err);
         console.log("[logIn()] :", "Error :", ack);
+        // TODO: give the logIn() function recursive depth like 4
+        // logIn()
         return;
       }
       setStatus("logged In");
@@ -59,6 +63,11 @@ function Login() {
       setUsername(localUsername);
       setGunUserId(gunUserId);
 
+      if (isInVideoCall) {
+        navigate("/videocall/"+videoCallId)
+        return
+      }
+      
       navigate("/");
     });
   };

@@ -5,6 +5,8 @@ const userModel = {
   username: "",
   gunUserId: "",
   isLoggedIn: computed((state) => state.username !== ""),
+  // TODO: use below implementation later
+  // isLoggedIn: computed((state) => !!state.username),
   setUsername: action((state, payload) => {
     console.log("[setUsername()] :", payload);
     state.username = payload;
