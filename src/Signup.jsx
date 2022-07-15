@@ -5,8 +5,9 @@ import { user } from "./GunInstance";
 import { useNavigate } from "react-router-dom";
 import PasswordField from "./component/PasswordField.jsx";
 
+import { toast } from "react-hot-toast";
+
 function Signup() {
-  const [status, setStatus] = useState("");
   const [isDuplicateUsername, setIsDuplicateUsername] = useState(false);
 
   const [username, setUsername] = useState("");
@@ -28,22 +29,23 @@ function Signup() {
     // field
 
     if (password !== confirmPassword) {
-      setStatus("Passwords should match");
+      toast.error("Passwords should match");
       return;
     }
 
     user.get(`~@${username}`).once(() => {
       setIsDuplicateUsername(true);
-      setStatus("User with username already exists");
+      toast.error("User with username already exists");
     });
 
     if (!isDuplicateUsername) {
       user.create(username, password, (ack) => {
         if (ack.err) {
           console.log("[signUp()] :", "error :", ack);
-          setStatus(ack.err);
+          toast.error(ack.err);
           return;
         }
+        toast.success("Created user successfully");
         // TODO: show notification that user is created
         console.log(
           "[signUp()] :",
@@ -53,11 +55,9 @@ function Signup() {
         navigate("/");
 
         // if (e.err) {
-        //   setStatus(e.err);
         // } else {
         //   // FIXME: this is not logging into gun, just saving the username in
         //   // the userStore
-        //   setStatus("logged In");
         //   updateUser({ username: username, password: password });
         //   navigate("/");
         // }
@@ -129,7 +129,7 @@ function Signup() {
                   </label>
                   <PasswordField setPassword={setConfirmPassword} />
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between my-4">
                   <div className="flex items-center">
                     <input
                       id="remember-me"
@@ -156,7 +156,6 @@ function Signup() {
                 <Button type="submit" text="Sign Up" />
               </form>
             </div>
-            {status}
           </div>
         </div>
       </div>

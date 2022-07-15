@@ -9,6 +9,8 @@ import { user } from "./GunInstance";
 import { useLocation } from "react-router-dom";
 import { useStoreState, useStoreActions } from "easy-peasy";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   let location = useLocation();
 
@@ -32,6 +34,10 @@ function App() {
 
   return (
     <div className="h-screen flex justify-center items-center overflow-hidden">
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
       <Routes>
         <Route path="/" element={<PeerCall />} />
         <Route path="signup" element={<Signup />} />

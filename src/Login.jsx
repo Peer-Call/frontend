@@ -9,10 +9,11 @@ import { gun, user } from "./GunInstance";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import PasswordField from "./component/PasswordField";
 
+import { toast } from "react-hot-toast";
+
 function Login() {
   const [localUsername, setLocalUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("");
 
   const { username } = useStoreState((state) => state.user);
   const { setUsername, setGunUserId } = useStoreActions(
@@ -48,11 +49,11 @@ function Login() {
   const logIn = () => {
     user.auth(localUsername, password, (ack) => {
       if (ack.err) {
-        setStatus("Error :", ack.err);
         console.log("[logIn()] :", "Error :", ack);
+        toast.error(ack.err);
         return;
       }
-      setStatus("logged In");
+      toast.success("Logged In");
       console.log("[logIn()] :", ack);
       // console.log("[logIn()] :", "opt.uuid", ack.opt.uuid());
 
@@ -122,7 +123,7 @@ function Login() {
 
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between my-4">
                   <div className="flex items-center">
                     <input
                       id="remember-me"
@@ -152,7 +153,6 @@ function Login() {
             </div>
           </div>
         </div>
-        {status}
         <br />
         {username.alias}
       </div>
