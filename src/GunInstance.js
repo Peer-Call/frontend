@@ -4,7 +4,7 @@ import "gun/sea";
 const gun = GUN({
   peers: [
     "https://gunjs.herokuapp.com/gun",
-    "http://peercall-gun.herokuapp.com/gun",
+    "https://peercall-gun.herokuapp.com/gun",
   ],
   localStorage: true,
   retry: 6,
