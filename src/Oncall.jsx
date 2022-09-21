@@ -5,6 +5,9 @@ import {
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
 
+import CircleButton from "./component/CircleButton";
+import { FiPhone, FiVideo, FiMic } from "react-icons/fi";
+
 const config = {
   mode: "rtc", codec: "vp8",
 };
@@ -93,10 +96,10 @@ const VideoCall = (props) => {
 
   return (
     <>
-      {/* {ready && tracks && ( */}
-      {/*   <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} /> */}
-      {/* )} */}
       {start && tracks && <Videos users={users} tracks={tracks} />}
+      {ready && tracks && (
+        <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+      )}
     </>
   );
 };
@@ -105,7 +108,9 @@ const Videos = (props) => {
   const { users, tracks } = props;
 
   return (
-    <div className="w-screen h-screen grid grid-cols-4 grid-rows-3 space-y-1 rounded-xl bg-green-100">
+    <div className="w-screen h-screen grid grid-cols-4 grid-rows-3 space-y-1 rounded-xl bg-gray-100">
+      <div className="flex space-x-4 left-1/2 bottom-0 mb-8 -translate-x-1/2 absolute ">
+      </div>
 
       {/* AgoraVideoPlayer component takes in the video track to render the stream,
             you can pass in other props that get passed to the rendered div */}
@@ -159,17 +164,19 @@ export const Controls = (props) => {
   };
 
   return (
-    <div className="controls">
-      <p className={trackState.audio ? "on" : ""}
-        onClick={() => mute("audio")}>
-        {trackState.audio ? "MuteAudio" : "UnmuteAudio"}
-      </p>
-      <p className={trackState.video ? "on" : ""}
-        onClick={() => mute("video")}>
-        {trackState.video ? "MuteVideo" : "UnmuteVideo"}
-      </p>
-      {<p onClick={() => leaveChannel()}>Leave</p>}
-    </div>
+    <div className="flex space-x-4 left-1/2 bottom-0 mb-8 -translate-x-1/2 absolute">
+      <CircleButton color="bg-black" blur={true} onClick={() => mute("audio")}>
+        <FiMic color="white" />
+      </CircleButton>
+
+      <CircleButton color="bg-black" blur={true} onClick={() => mute("video")}>
+        <FiVideo color="white" />
+      </CircleButton>
+
+      <CircleButton color="bg-red-700" onClick={() => leaveChannel()}>
+        <FiPhone color="white" />
+      </CircleButton>
+    </div >
   );
 };
 
