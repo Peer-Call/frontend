@@ -1,176 +1,196 @@
-import CircleButton from "./component/CircleButton";
-import Modal from "./component/Modal";
-import { FiPhone, FiVideo, FiVideoOff, FiMic, FiMicOff } from "react-icons/fi";
-import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import { gun } from "./GunInstance";
-import { useStoreState, useStoreActions } from "easy-peasy";
-import { useNavigate } from "react-router-dom";
-import { Peer } from "peerjs";
+import React, { useEffect, useState } from "react";
+import {
+  AgoraVideoPlayer,
+  createClient,
+  createMicrophoneAndCameraTracks,
+} from "agora-rtc-react";
 
-let peer;
-function Oncall() {
-  const { videoCallId } = useParams();
-  const videoElement = useRef();
-  const { username, userId, isLoggedIn } = useStoreState((state) => state.user);
-  const { setId, setHostId, setHostUsername, addParticipant } = useStoreActions(
-    (actions) => actions.videoCall
+const config = {
+  mode: "rtc", codec: "vp8",
+};
+
+const appId = "e6090e6cf34f4d5aba95d6d17b45bf17"; //ENTER APP ID HERE
+const token = "007eJxTYKhP5Hzhrslj6+CVOXFSQyEHd61YyhNbH/6ldWlft0o1/FBgSDUzsDRINUtOMzZJM0kxTUxKtDRNMUsxNE8yMU1KMzR/tVgrOeurdvLy6UeZGRkgEMRnZkgsTmFgAAB9wh97";
+
+const Oncall = () => {
+  const [inCall, setInCall] = useState(false);
+  const [channelName, setChannelName] = useState("");
+  return (
+    <div >
+      {inCall ? (
+        <VideoCall setInCall={setInCall} channelName={channelName} />
+      ) : (
+        <ChannelForm setInCall={setInCall} setChannelName={setChannelName} />
+      )}
+    </div>
+
   );
+};
 
-  let navigate = useNavigate();
+// the create methods in the wrapper return a hook
+// the create method should be called outside the parent component
+// this hook can be used the get the client/stream in any component
+const useClient = createClient(config);
+const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
-  const [isVideoOff, setIsVideoOff] = useState(false);
-  const [isMicOff, setIsMicOff] = useState(true);
-
-  const [localStream, setLocalStream] = useState(
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-  );
+const VideoCall = (props) => {
+  const { setInCall, channelName } = props;
+  const [users, setUsers] = useState([]);
+  const [start, setStart] = useState(false);
+  // using the hook to get access to the client object
+  const client = useClient();
+  // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
+  const { ready, tracks } = useMicrophoneAndCameraTracks();
 
   useEffect(() => {
-    // 1. Checking if user is signed in otherwise send to sign in page
-    // 2. Create new Peer object using userId from store
-    // 3. Get the video call id from the url bar and get the meeting data from
-    // the gun database and store it in the local store
-    if (!isLoggedIn) {
-      navigate("/signin");
-      return;
-    }
-
-    // initialise peerjs object
-    peer = new Peer(userId);
-
-    console.log("[Video Call useEffect] :", videoCallId);
-
-    gun
-      .get("videocalls")
-      .get(videoCallId)
-      .on((data, id) => {
-        setId(id);
-        console.log("===GUN DATA===");
-        Object.entries(data).forEach((entry) => {
-          const [key, value] = entry;
-          switch (key) {
-            case "_":
-              return;
-            case "hostId":
-              setHostId(value);
-              break;
-            case "hostUsername":
-              setHostUsername(value);
-              break;
-            default:
-              addParticipant({ id: value, username: key });
-              break;
-          }
-        });
-        console.log("===GUN DATA END===");
+    // function to initialise the SDK
+    let init = async (name) => {
+      client.on("user-published", async (user, mediaType) => {
+        await client.subscribe(user, mediaType);
+        console.log("subscribe success");
+        if (mediaType === "video") {
+          setUsers((prevUsers) => {
+            return [...prevUsers, user];
+          });
+        }
+        if (mediaType === "audio") {
+          user.audioTrack?.play();
+        }
       });
-  }, []);
 
-  useEffect(() => {
-    console.log("localStream :", localStream);
-    if (localStream === null) {
-      return;
+      client.on("user-unpublished", (user, type) => {
+        console.log("unpublished", user, type);
+        if (type === "audio") {
+          user.audioTrack?.stop();
+        }
+        if (type === "video") {
+          setUsers((prevUsers) => {
+            return prevUsers.filter((User) => User.uid !== user.uid);
+          });
+        }
+      });
+
+      client.on("user-left", (user) => {
+        console.log("leaving", user);
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => User.uid !== user.uid);
+        });
+      });
+
+      await client.join(appId, name, token, null);
+      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      setStart(true);
+
+    };
+
+    if (ready && tracks) {
+      console.log("init ready");
+      init(channelName);
     }
-    try {
-      (async function() {
-        videoElement.current.srcObject = await localStream;
-        toggleMic(); // NOTE: remove this line later
-      })();
-      // TODO: close the previous stream here and in setState
-      // TODO: close this stream when it goes to different page and destroy the previous page
-      return;
-    } catch (err) {
-      console.error("Failed to get stream", err);
-    }
-  }, [localStream]);
 
-  const toggleVideo = () => {
-    videoElement.current.srcObject.getTracks().map((t) => {
-      if (t.kind === "video") {
-        const enabled = !t.enabled;
-        t.enabled = enabled;
-        setIsVideoOff(!enabled);
-      }
-    });
-    // TODO: even if the webcam is turned off with the button it still sends black frames of video
-  };
-
-  const toggleMic = () =>
-    videoElement.current.srcObject.getTracks().map((t) => {
-      if (t.kind === "audio") {
-        const enabled = !t.enabled;
-        t.enabled = enabled;
-        setIsMicOff(!enabled);
-      }
-    });
-
+  }, [channelName, client, ready, tracks]);
 
 
   return (
-    <section>
-      <Modal />
-      <div className=" h-screen space-y-1  bg-black rounded-xl  grid grid-rows-3 grid-cols-4 ">
-        <div className=" relative mt-2 w-full p-4 rounded-3xl col-span-3 row-span-3">
-          <video autoPlay className="h-full scale-x-[-1]" ref={videoElement}></video>
-          {/*<img
-            className=" rounded-3xl h-full w-full mb-2"
-            // src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-            src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80"
-            alt="image"
-          ></img>*/}
-          <div className=" flex space-x-4 left-1/2 bottom-0 mb-8 -translate-x-1/2 absolute ">
-            <CircleButton
-              blur={true}
-              onClick={() => {
-                console.log('stop("audio")');
-                toggleMic();
-              }}
-            >
-              {isMicOff ? <FiMicOff color="white" /> : <FiMic color="white" />}
-            </CircleButton>
-            <CircleButton color="bg-red-700">
-              <FiPhone color="white" />
-            </CircleButton>
-            <CircleButton
-              blur={true}
-              onClick={() => {
-                console.log('stop("video")');
-                toggleVideo();
-              }}
-            >
-              {isVideoOff ? (
-                <FiVideoOff color="white" />
-              ) : (
-                <FiVideo color="white" />
-              )}
-            </CircleButton>
-          </div>
-        </div>
-        <div className="w-full p-4 rounded-3xl">
-          <img
-            className=" rounded-3xl"
-            src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-            alt="image"
-          />
-        </div>
-        <div className=" w-full p-4 rounded-3xl">
-          <img
-            className=" rounded-3xl"
-            src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-            alt="image"
-          />
-        </div>
-        <div className="w-full p-4 rounded-3xl ">
-          <img
-            className=" rounded-3xl"
-            src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-            alt="image"
-          />
-        </div>
-      </div>
-    </section >
+    <>
+      {/* {ready && tracks && ( */}
+      {/*   <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} /> */}
+      {/* )} */}
+      {start && tracks && <Videos users={users} tracks={tracks} />}
+    </>
   );
-}
+};
+
+const Videos = (props) => {
+  const { users, tracks } = props;
+
+  return (
+    <div className="w-screen h-screen grid grid-cols-4 grid-rows-3 space-y-1 rounded-xl bg-green-100">
+
+      {/* AgoraVideoPlayer component takes in the video track to render the stream,
+            you can pass in other props that get passed to the rendered div */}
+      <div className="col-span-3 row-span-3 mt-2 w-full rounded-3xl p-4">
+        <AgoraVideoPlayer style={{ height: '95%', width: '95%' }} className="rounded-md h-full w-full mb-2" videoTrack={tracks[1]} />
+      </div>
+      {
+        users.length > 0 &&
+        users.map((user) => {
+          if (user.videoTrack) {
+            return (
+              <div className="w-full p-4 rounded-3xl">
+                <AgoraVideoPlayer style={{ height: '95%', width: '95%' }} className="rounded-md" videoTrack={user.videoTrack} key={user.uid} />
+              </div>
+            );
+
+          } else return null;
+        })
+      }
+    </div >
+  );
+};
+
+export const Controls = (props) => {
+  const client = useClient();
+  const { tracks, setStart, setInCall } = props;
+  const [trackState, setTrackState] = useState({ video: true, audio: true });
+
+  const mute = async (type) => {
+    if (type === "audio") {
+      await tracks[0].setEnabled(!trackState.audio);
+      setTrackState((ps) => {
+        return { ...ps, audio: !ps.audio };
+      });
+    } else if (type === "video") {
+      await tracks[1].setEnabled(!trackState.video);
+      setTrackState((ps) => {
+        return { ...ps, video: !ps.video };
+      });
+    }
+  };
+
+  const leaveChannel = async () => {
+    await client.leave();
+    client.removeAllListeners();
+    // we close the tracks to perform cleanup
+    tracks[0].close();
+    tracks[1].close();
+    setStart(false);
+    setInCall(false);
+  };
+
+  return (
+    <div className="controls">
+      <p className={trackState.audio ? "on" : ""}
+        onClick={() => mute("audio")}>
+        {trackState.audio ? "MuteAudio" : "UnmuteAudio"}
+      </p>
+      <p className={trackState.video ? "on" : ""}
+        onClick={() => mute("video")}>
+        {trackState.video ? "MuteVideo" : "UnmuteVideo"}
+      </p>
+      {<p onClick={() => leaveChannel()}>Leave</p>}
+    </div>
+  );
+};
+
+const ChannelForm = (props) => {
+  const { setInCall, setChannelName } = props;
+
+  return (
+    <form className="join">
+      {appId === '' && <p style={{ color: 'red' }}>Please enter your Agora App ID in App.tsx and refresh the page</p>}
+      <input type="text"
+        placeholder="Enter Channel Name"
+        onChange={(e) => setChannelName(e.target.value)}
+      />
+      <button onClick={(e) => {
+        e.preventDefault();
+        setInCall(true);
+      }}>
+        Join
+      </button>
+    </form>
+  );
+};
 
 export default Oncall;

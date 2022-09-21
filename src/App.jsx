@@ -6,21 +6,16 @@ import PeerCall from "./PeerCall";
 import NotFound from "./NotFound";
 import { useEffect } from "react";
 import { user } from "./GunInstance";
-import { useLocation } from "react-router-dom";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { useStoreActions } from "easy-peasy";
 
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  let location = useLocation();
-
   const { setUsername, setGunUserId } = useStoreActions(
     (actions) => actions.user
   );
 
   useEffect(() => {
-    console.log("[Root useEffect]:", "location :", location);
-    console.log("[Root useEffect] :", "user.is value:", user.is?.pub);
     setGunUserId(user?.is?.pub || "");
     user.get("alias").once((username) => {
       console.log(
@@ -45,7 +40,7 @@ function App() {
         <Route path="videocall/:videoCallId" element={<Oncall />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
+    </div >
   );
 }
 

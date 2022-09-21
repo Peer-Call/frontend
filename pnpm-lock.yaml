@@ -5,6 +5,8 @@ specifiers:
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
   '@vitejs/plugin-react': ^1.3.0
+  agora-rtc-react: ^1.1.3
+  agora-rtc-sdk-ng: ^4.14.0
   autoprefixer: ^10.4.7
   easy-peasy: ^5.0.4
   gun: ^0.2020.1237
@@ -22,6 +24,8 @@ specifiers:
 
 dependencies:
   '@peculiar/webcrypto': 1.4.0
+  agora-rtc-react: 1.1.3_react@18.2.0
+  agora-rtc-sdk-ng: 4.14.0
   easy-peasy: 5.0.4_react@18.2.0
   gun: 0.2020.1237
   nanoid: 4.0.0
@@ -476,6 +480,26 @@ packages:
     resolution: {integrity: sha512-fDlslCJpojuY1cnb7tY7COAriA7cdSzDiWyrWNdFn7Cjd+jrEgZavqkOgD/wg+eH765YPnQjqlS88OL/Q0Qtkg==}
     dev: false
     optional: true
+
+  /agora-rtc-react/1.1.3_react@18.2.0:
+    resolution: {integrity: sha512-AgmDoeLoL3xC7u60lTehHi1GvHsP8l09CX3bn+NyHx6E0Dmbbxdtqkn+YrlakWa4IYOAn0d/9oKvuGrNtUiOpA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      agora-rtc-sdk-ng: 4.14.0
+      react: 18.2.0
+    dev: false
+
+  /agora-rtc-sdk-ng/4.14.0:
+    resolution: {integrity: sha512-87WZEz+Lkhs39/K9iqBeQYUl6HIWoiyicez/DxspQ37N9NRWRRmoLVS1yUfG6FPWWxZiY+VEJbzPLPhuAihrpQ==}
+    dependencies:
+      agora-rte-extension: 1.1.0
+    dev: false
+
+  /agora-rte-extension/1.1.0:
+    resolution: {integrity: sha512-HGsr7dJ5FHeCVHTLHCUfQ6cvKVLJz9b11F/FZbSQ/IqYlGZwRdu5E6hVdWenjWyYiqmpZm+nCP9IIqXSA+BPwA==}
+    dev: false
 
   /ansi-styles/3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
