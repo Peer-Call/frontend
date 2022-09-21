@@ -7,6 +7,7 @@ import {
 
 import CircleButton from "./component/CircleButton";
 import { FiPhone, FiVideo, FiMic } from "react-icons/fi";
+import Modal from "./component/Modal";
 
 const config = {
   mode: "rtc", codec: "vp8",
@@ -21,7 +22,10 @@ const Oncall = () => {
   return (
     <div >
       {inCall ? (
-        <VideoCall setInCall={setInCall} channelName={channelName} />
+        <>
+          <Modal />
+          <VideoCall setInCall={setInCall} channelName={channelName} />
+        </>
       ) : (
         <ChannelForm setInCall={setInCall} setChannelName={setChannelName} />
       )}
