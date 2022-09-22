@@ -21,14 +21,8 @@ const Oncall = () => {
   const [channelName, setChannelName] = useState("");
   return (
     <div >
-      {inCall ? (
-        <>
-          <Modal />
-          <VideoCall setInCall={setInCall} channelName={channelName} />
-        </>
-      ) : (
-        <ChannelForm setInCall={setInCall} setChannelName={setChannelName} />
-      )}
+      <Modal />
+      <VideoCall setInCall channelName='example' />
     </div>
 
   );
