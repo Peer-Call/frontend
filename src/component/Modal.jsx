@@ -4,7 +4,7 @@ function Modal() {
 
   return (
     <>
-      <div id="hs-basic-modal" class="flex z-10 absolute bottom-16 left-14 flex-col bg-white border shadow-sm rounded-xl">
+      <div id="hs-basic-modal" class="flex z-10 absolute bottom-16 right-14 flex-col bg-white border shadow-sm rounded-xl">
         <div class="flex justify-between items-center py-3 px-4 border-b ">
           <h3 class="font-bold text-gray-800 ">
             Here's the link to your meeting
