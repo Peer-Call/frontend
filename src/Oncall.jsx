@@ -14,7 +14,7 @@ const config = {
 };
 
 const appId = "e6090e6cf34f4d5aba95d6d17b45bf17"; //ENTER APP ID HERE
-const token = "007eJxTYKhP5Hzhrslj6+CVOXFSQyEHd61YyhNbH/6ldWlft0o1/FBgSDUzsDRINUtOMzZJM0kxTUxKtDRNMUsxNE8yMU1KMzR/tVgrOeurdvLy6UeZGRkgEMRnZkgsTmFgAAB9wh97";
+const token = "007eJxTYHhzabVJfKr3c7m++xZOpxj0O7J/ZM7aycBjxdQ72ebg6eMKDKlmBpYGqWbJacYmaSYppolJiZamKWYphuZJJqZJaYbmL5h1ktNDdZNbL8uwMjJAIIjPzpBakZhbkJPKwAAAqbYhFw==";
 
 const Oncall = () => {
   const [inCall, setInCall] = useState(false);
