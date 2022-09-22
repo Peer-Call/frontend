@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AgoraVideoPlayer,
   createClient,
@@ -6,8 +7,9 @@ import {
 } from "agora-rtc-react";
 
 import CircleButton from "./component/CircleButton";
-import { FiPhone, FiVideo, FiMic } from "react-icons/fi";
+import { FiPhone, FiVideo, FiMic, FiMicOff, FiVideoOff } from "react-icons/fi";
 import Modal from "./component/Modal";
+import { toast } from "react-hot-toast";
 
 const config = {
   mode: "rtc", codec: "vp8",
@@ -15,6 +17,7 @@ const config = {
 
 const appId = "e6090e6cf34f4d5aba95d6d17b45bf17"; //ENTER APP ID HERE
 const token = "007eJxTYHhzabVJfKr3c7m++xZOpxj0O7J/ZM7aycBjxdQ72ebg6eMKDKlmBpYGqWbJacYmaSYppolJiZamKWYphuZJJqZJaYbmL5h1ktNDdZNbL8uwMjJAIIjPzpBakZhbkJPKwAAAqbYhFw==";
+let navigate;
 
 const Oncall = () => {
   const [inCall, setInCall] = useState(false);
@@ -42,6 +45,8 @@ const VideoCall = (props) => {
   const client = useClient();
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
   const { ready, tracks } = useMicrophoneAndCameraTracks();
+
+  navigate = useNavigate()
 
   useEffect(() => {
     // function to initialise the SDK
@@ -106,7 +111,7 @@ const Videos = (props) => {
   const { users, tracks } = props;
 
   return (
-    <div className="w-screen h-screen grid grid-cols-4 grid-rows-3 space-y-1 rounded-xl bg-gray-100">
+    <div className="w-screen h-screen grid grid-cols-4 grid-rows-3 space-y-1 rounded-xl bg-black">
       <div className="flex space-x-4 left-1/2 bottom-0 mb-8 -translate-x-1/2 absolute ">
       </div>
 
@@ -158,17 +163,18 @@ export const Controls = (props) => {
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-    setInCall(false);
+    navigate("/")
+    toast.success("Call Ended")
   };
 
   return (
     <div className="flex space-x-4 left-1/2 bottom-0 mb-8 -translate-x-1/2 absolute">
-      <CircleButton color="bg-black" blur={true} onClick={() => mute("audio")}>
-        <FiMic color="white" />
+      <CircleButton color="bg-transparent" blur={true} onClick={() => mute("audio")}>
+        {trackState.audio ? <FiMic color="white" /> : <FiMicOff color="white" />}
       </CircleButton>
 
-      <CircleButton color="bg-black" blur={true} onClick={() => mute("video")}>
-        <FiVideo color="white" />
+      <CircleButton color="bg-transparent" blur={true} onClick={() => mute("video")}>
+        {trackState.video ? <FiVideo color="white" /> : <FiVideoOff color="white" />}
       </CircleButton>
 
       <CircleButton color="bg-red-700" onClick={() => leaveChannel()}>
