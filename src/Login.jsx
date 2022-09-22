@@ -46,9 +46,18 @@ function Login() {
     // });
   }, []);
 
-  const logIn = () => {
+  const logIn = (count=5) => {
+    if (localUsername.trim() === "") {
+      toast.error("Enter a username");
+      return
+    }
+    if (password.trim() === "") {
+      toast.error("Enter a password");
+      return
+    }
     user.auth(localUsername, password, (ack) => {
       if (ack.err) {
+        if (count > 0) return logIn(count - 1)
         console.log("[logIn()] :", "Error :", ack);
         toast.error(ack.err);
         return;
